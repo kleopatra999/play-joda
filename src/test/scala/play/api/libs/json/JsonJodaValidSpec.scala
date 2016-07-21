@@ -8,10 +8,6 @@ import org.specs2.mutable._
 object JsonJodaValidSpec extends Specification {
   "JSON reads" should {
     "validate Dates" in {
-
-      Json.toJson[java.util.Date](dd).validate[java.util.Date] must beEqualTo(JsSuccess(dd))
-      JsNumber(dd.getTime).validate[java.util.Date] must beEqualTo(JsSuccess(dd))
-
       val dj = new org.joda.time.DateTime()
       val dfj = org.joda.time.format.DateTimeFormat.forPattern("yyyy-MM-dd")
       val ddj = org.joda.time.DateTime.parse(dfj.print(dj), dfj)
@@ -26,7 +22,6 @@ object JsonJodaValidSpec extends Specification {
       val ltj = org.joda.time.LocalTime.parse(dtfj.print(dj), dtfj)
       Json.toJson[org.joda.time.LocalTime](ltj).validate[org.joda.time.LocalTime] must beEqualTo(JsSuccess(ltj))
     }
-
 
   }
 

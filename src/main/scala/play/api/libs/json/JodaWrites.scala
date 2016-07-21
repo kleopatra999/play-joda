@@ -55,8 +55,3 @@ trait LowPriorityJodaDefaultWrites {
 }
 
 object JodaWrites extends LowPriorityJodaDefaultWrites
-
-/*
-error.expected.date=Date value expected
-error.expected.time=Time value expected
- */

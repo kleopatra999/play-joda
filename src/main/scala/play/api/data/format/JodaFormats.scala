@@ -17,8 +17,8 @@ object JodaFormats {
   private def parsing[T](parse: String => T, errMsg: String, errArgs: Seq[Any])(key: String, data: Map[String, String]): Either[Seq[FormError], T] = {
     Formats.stringFormat.bind(key, data).right.flatMap { s =>
       scala.util.control.Exception.allCatch[T]
-          .either(parse(s))
-          .left.map(e => Seq(FormError(key, errMsg, errArgs)))
+        .either(parse(s))
+        .left.map(e => Seq(FormError(key, errMsg, errArgs)))
     }
   }
 

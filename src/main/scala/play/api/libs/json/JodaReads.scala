@@ -22,7 +22,7 @@ trait LowPriorityJodaDefaultReads {
       case JsNumber(d) => JsSuccess(new DateTime(d.toLong))
       case JsString(s) => parseDate(corrector(s)) match {
         case Some(d) => JsSuccess(d)
-        case None => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.jodadate.format", pattern))))
+        case None => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.date.format", pattern))))
       }
       case _ => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.date"))))
     }
@@ -53,7 +53,7 @@ trait LowPriorityJodaDefaultReads {
     def reads(json: JsValue): JsResult[LocalDate] = json match {
       case JsString(s) => parseDate(corrector(s)) match {
         case Some(d) => JsSuccess(d)
-        case None => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.jodadate.format", pattern))))
+        case None => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.date.format", pattern))))
       }
       case _ => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.date"))))
     }
@@ -84,7 +84,7 @@ trait LowPriorityJodaDefaultReads {
       case JsNumber(n) => JsSuccess(new LocalTime(n.toLong))
       case JsString(s) => parseTime(corrector(s)) match {
         case Some(d) => JsSuccess(d)
-        case None => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.jodatime.format", pattern))))
+        case None => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.time.format", pattern))))
       }
       case _ => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.time"))))
     }
@@ -97,7 +97,6 @@ trait LowPriorityJodaDefaultReads {
    * the default implicit joda.time.LocalTime reads
    */
   implicit val DefaultJodaLocalTimeReads = jodaLocalTimeReads("")
-
 
 }
 
