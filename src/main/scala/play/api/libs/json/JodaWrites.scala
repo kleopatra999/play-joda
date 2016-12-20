@@ -10,7 +10,7 @@ trait LowPriorityJodaDefaultWrites {
    * @param pattern the pattern used by SimpleDateFormat
    */
   def jodaDateWrites(pattern: String): Writes[org.joda.time.DateTime] = new Writes[org.joda.time.DateTime] {
-    val df = org.joda.time.format.DateTimeFormat.forPattern(pattern)
+    private val df = org.joda.time.format.DateTimeFormat.forPattern(pattern)
     def writes(d: org.joda.time.DateTime): JsValue = JsString(d.toString(df))
   }
 
@@ -26,7 +26,7 @@ trait LowPriorityJodaDefaultWrites {
    * @param pattern the pattern used by org.joda.time.format.DateTimeFormat
    */
   def jodaLocalDateWrites(pattern: String): Writes[org.joda.time.LocalDate] = new Writes[org.joda.time.LocalDate] {
-    val df = org.joda.time.format.DateTimeFormat.forPattern(pattern)
+    private val df = org.joda.time.format.DateTimeFormat.forPattern(pattern)
     def writes(d: org.joda.time.LocalDate): JsValue = JsString(d.toString(df))
   }
 

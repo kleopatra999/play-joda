@@ -8,6 +8,8 @@ import org.specs2.mutable._
 object JsonJodaValidSpec extends Specification {
   "JSON reads" should {
     "validate Dates" in {
+      import JodaReads._
+      import JodaWrites._
       val dj = new org.joda.time.DateTime()
       val dfj = org.joda.time.format.DateTimeFormat.forPattern("yyyy-MM-dd")
       val ddj = org.joda.time.DateTime.parse(dfj.print(dj), dfj)

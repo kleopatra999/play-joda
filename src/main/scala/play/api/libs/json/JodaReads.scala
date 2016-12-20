@@ -3,7 +3,7 @@
  */
 package play.api.libs.json
 
-import play.api.data.validation.ValidationError
+import org.joda.time.{ DateTime, LocalDate, LocalTime }
 
 trait LowPriorityJodaDefaultReads {
 
@@ -22,20 +22,20 @@ trait LowPriorityJodaDefaultReads {
       case JsNumber(d) => JsSuccess(new DateTime(d.toLong))
       case JsString(s) => parseDate(corrector(s)) match {
         case Some(d) => JsSuccess(d)
-        case None => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.date.format", pattern))))
+        case None => JsError(Seq(JsPath() -> Seq(JsonValidationError("error.expected.date.format", pattern))))
       }
-      case _ => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.date"))))
+      case _ => JsError(Seq(JsPath() -> Seq(JsonValidationError("error.expected.date"))))
     }
 
     private def parseDate(input: String): Option[DateTime] =
-      scala.util.control.Exception.allCatch[DateTime] opt (DateTime.parse(input, df))
+      scala.util.control.Exception.allCatch[DateTime] opt DateTime.parse(input, df)
 
   }
 
   /**
    * the default implicit JodaDate reads
    */
-  implicit val DefaultJodaDateReads = jodaDateReads("yyyy-MM-dd")
+  implicit val DefaultJodaDateReads: Reads[DateTime] = jodaDateReads("yyyy-MM-dd")
 
   /**
    * Reads for the `org.joda.time.LocalDate` type.
@@ -53,19 +53,19 @@ trait LowPriorityJodaDefaultReads {
     def reads(json: JsValue): JsResult[LocalDate] = json match {
       case JsString(s) => parseDate(corrector(s)) match {
         case Some(d) => JsSuccess(d)
-        case None => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.date.format", pattern))))
+        case None => JsError(Seq(JsPath() -> Seq(JsonValidationError("error.expected.date.format", pattern))))
       }
-      case _ => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.date"))))
+      case _ => JsError(Seq(JsPath() -> Seq(JsonValidationError("error.expected.date"))))
     }
 
     private def parseDate(input: String): Option[LocalDate] =
-      scala.util.control.Exception.allCatch[LocalDate] opt (LocalDate.parse(input, df))
+      scala.util.control.Exception.allCatch[LocalDate] opt LocalDate.parse(input, df)
   }
 
   /**
    * the default implicit joda.time.LocalDate reads
    */
-  implicit val DefaultJodaLocalDateReads = jodaLocalDateReads("")
+  implicit val DefaultJodaLocalDateReads: Reads[LocalDate] = jodaLocalDateReads("")
 
   /**
    * Reads for the `org.joda.time.LocalTime` type.
@@ -84,19 +84,19 @@ trait LowPriorityJodaDefaultReads {
       case JsNumber(n) => JsSuccess(new LocalTime(n.toLong))
       case JsString(s) => parseTime(corrector(s)) match {
         case Some(d) => JsSuccess(d)
-        case None => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.time.format", pattern))))
+        case None => JsError(Seq(JsPath() -> Seq(JsonValidationError("error.expected.time.format", pattern))))
       }
-      case _ => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.time"))))
+      case _ => JsError(Seq(JsPath() -> Seq(JsonValidationError("error.expected.time"))))
     }
 
     private def parseTime(input: String): Option[LocalTime] =
-      scala.util.control.Exception.allCatch[LocalTime] opt (LocalTime.parse(input, df))
+      scala.util.control.Exception.allCatch[LocalTime] opt LocalTime.parse(input, df)
   }
 
   /**
    * the default implicit joda.time.LocalTime reads
    */
-  implicit val DefaultJodaLocalTimeReads = jodaLocalTimeReads("")
+  implicit val DefaultJodaLocalTimeReads: Reads[LocalTime] = jodaLocalTimeReads("")
 
 }
 

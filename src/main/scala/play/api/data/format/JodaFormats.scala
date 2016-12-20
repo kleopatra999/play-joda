@@ -3,6 +3,7 @@
  */
 package play.api.data.format
 
+import org.joda.time.format.DateTimeFormatter
 import play.api.data._
 
 object JodaFormats {
@@ -18,7 +19,7 @@ object JodaFormats {
     Formats.stringFormat.bind(key, data).right.flatMap { s =>
       scala.util.control.Exception.allCatch[T]
         .either(parse(s))
-        .left.map(e => Seq(FormError(key, errMsg, errArgs)))
+        .left.map(_ => Seq(FormError(key, errMsg, errArgs)))
     }
   }
 
@@ -30,9 +31,9 @@ object JodaFormats {
    */
   def jodaDateTimeFormat(pattern: String, timeZone: org.joda.time.DateTimeZone = org.joda.time.DateTimeZone.getDefault): Formatter[org.joda.time.DateTime] = new Formatter[org.joda.time.DateTime] {
 
-    val formatter = org.joda.time.format.DateTimeFormat.forPattern(pattern).withZone(timeZone)
+    val formatter: DateTimeFormatter = org.joda.time.format.DateTimeFormat.forPattern(pattern).withZone(timeZone)
 
-    override val format = Some(("format.date", Seq(pattern)))
+    override val format: Some[(String, Seq[String])] = Some(("format.date", Seq(pattern)))
 
     def bind(key: String, data: Map[String, String]) = parsing(formatter.parseDateTime, "error.date", Nil)(key, data)
 
@@ -53,10 +54,10 @@ object JodaFormats {
 
     import org.joda.time.LocalDate
 
-    val formatter = org.joda.time.format.DateTimeFormat.forPattern(pattern)
+    val formatter: DateTimeFormatter = org.joda.time.format.DateTimeFormat.forPattern(pattern)
     def jodaLocalDateParse(data: String) = LocalDate.parse(data, formatter)
 
-    override val format = Some(("format.date", Seq(pattern)))
+    override val format: Some[(String, Seq[String])] = Some(("format.date", Seq(pattern)))
 
     def bind(key: String, data: Map[String, String]) = parsing(jodaLocalDateParse, "error.date", Nil)(key, data)
 
