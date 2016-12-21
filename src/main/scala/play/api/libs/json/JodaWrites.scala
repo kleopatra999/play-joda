@@ -3,6 +3,8 @@
  */
 package play.api.libs.json
 
+import org.joda.time.format.DateTimeFormatter
+
 trait LowPriorityJodaDefaultWrites {
 
   /**
@@ -10,7 +12,7 @@ trait LowPriorityJodaDefaultWrites {
    * @param pattern the pattern used by SimpleDateFormat
    */
   def jodaDateWrites(pattern: String): Writes[org.joda.time.DateTime] = new Writes[org.joda.time.DateTime] {
-    private val df = org.joda.time.format.DateTimeFormat.forPattern(pattern)
+    val df: DateTimeFormatter = org.joda.time.format.DateTimeFormat.forPattern(pattern)
     def writes(d: org.joda.time.DateTime): JsValue = JsString(d.toString(df))
   }
 
@@ -26,7 +28,7 @@ trait LowPriorityJodaDefaultWrites {
    * @param pattern the pattern used by org.joda.time.format.DateTimeFormat
    */
   def jodaLocalDateWrites(pattern: String): Writes[org.joda.time.LocalDate] = new Writes[org.joda.time.LocalDate] {
-    private val df = org.joda.time.format.DateTimeFormat.forPattern(pattern)
+    val df: DateTimeFormatter = org.joda.time.format.DateTimeFormat.forPattern(pattern)
     def writes(d: org.joda.time.LocalDate): JsValue = JsString(d.toString(df))
   }
 
