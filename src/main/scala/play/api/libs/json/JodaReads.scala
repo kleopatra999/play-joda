@@ -3,8 +3,6 @@
  */
 package play.api.libs.json
 
-import play.api.data.validation.ValidationError
-
 trait LowPriorityJodaDefaultReads {
 
   /**
@@ -22,9 +20,9 @@ trait LowPriorityJodaDefaultReads {
       case JsNumber(d) => JsSuccess(new DateTime(d.toLong))
       case JsString(s) => parseDate(corrector(s)) match {
         case Some(d) => JsSuccess(d)
-        case None => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.date.format", pattern))))
+        case None => JsError(Seq(JsPath() -> Seq(JsonValidationError("error.expected.date.format", pattern))))
       }
-      case _ => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.date"))))
+      case _ => JsError(Seq(JsPath() -> Seq(JsonValidationError("error.expected.date"))))
     }
 
     private def parseDate(input: String): Option[DateTime] =
@@ -53,9 +51,9 @@ trait LowPriorityJodaDefaultReads {
     def reads(json: JsValue): JsResult[LocalDate] = json match {
       case JsString(s) => parseDate(corrector(s)) match {
         case Some(d) => JsSuccess(d)
-        case None => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.date.format", pattern))))
+        case None => JsError(Seq(JsPath() -> Seq(JsonValidationError("error.expected.date.format", pattern))))
       }
-      case _ => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.date"))))
+      case _ => JsError(Seq(JsPath() -> Seq(JsonValidationError("error.expected.date"))))
     }
 
     private def parseDate(input: String): Option[LocalDate] =
@@ -84,9 +82,9 @@ trait LowPriorityJodaDefaultReads {
       case JsNumber(n) => JsSuccess(new LocalTime(n.toLong))
       case JsString(s) => parseTime(corrector(s)) match {
         case Some(d) => JsSuccess(d)
-        case None => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.time.format", pattern))))
+        case None => JsError(Seq(JsPath() -> Seq(JsonValidationError("error.expected.time.format", pattern))))
       }
-      case _ => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.time"))))
+      case _ => JsError(Seq(JsPath() -> Seq(JsonValidationError("error.expected.time"))))
     }
 
     private def parseTime(input: String): Option[LocalTime] =

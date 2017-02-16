@@ -1,19 +1,24 @@
+import interplay.ScalaVersions._
+
 name := "play-joda"
 
 version := "1.0"
 
-scalaVersion := "2.11.7"
+scalaVersion := scala212
 
-val playVersion = "2.6.0-SNAPSHOT"
+crossScalaVersions := Seq(scala211, scala212)
+
+val playVersion = "2.6.0-M1"
 
 lazy val `play-joda` = project.in(file("."))
     .enablePlugins(PlayLibrary)
-    .settings(scalariformSettings: _*)
     .settings(
       libraryDependencies ++= Seq(
         "com.typesafe.play" %% "play" % playVersion % Provided,
-        "joda-time" % "joda-time" % "2.9.4",
-        "org.specs2" % "specs2-core_2.11" % "3.8.4" % Test
+        "com.typesafe.play" %% "play-json" % "2.6.0-M3",
+        "joda-time" % "joda-time" % "2.9.7",
+        "org.joda" % "joda-convert" % "1.8.1",
+        "org.specs2" %% "specs2-core" % "3.8.8" % Test
       )
     )
 
